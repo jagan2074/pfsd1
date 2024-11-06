@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: bgAnimation 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgAnimation {
+            0% { background-color: #ffecd2; }
+            100% { background-color: #fcb69f; }
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: containerFadeIn 2s ease-in-out;
+        }
+
+        @keyframes containerFadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        form {
+            margin-bottom: 30px;
+            position: relative;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .student-info span {
+            display: block;
+            padding: 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .student-info span strong {
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 30px 40px;
+            }
+
+            h1, h2 {
+                font-size: 1.8rem;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Student</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+
+        <h2>Student List</h2>
+        <ul>
+            {% for student in students %}
+                <li>
+                    <div class="student-info">
+                        <span><strong>ID:</strong> {{ student.SID }}</span>
+                        <span><strong>Name:</strong> {{ student.NAME }}</span>
+                        <span><strong>Branch:</strong> {{ student.get_BRANCH_display }}</span>
+                        <span><strong>Subject:</strong> {{ student.get_SUBJECT_display }}</span>
+                    </div>
+                </li>
+            {% empty %}
+                <li>No students found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
+
